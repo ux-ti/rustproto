@@ -45,7 +45,7 @@ jobs:
         with:
           images: uxti/rust.proto
           tags: |
-            type=raw,value={{commit_date 'YYYY-MM-DDTHH:mm:ss.SSS[Z]'}}
+            type=raw,value={{date 'YYYYMMDD'}}
 
 
       # Install the cosign tool except on PR
