@@ -45,7 +45,7 @@ jobs:
         with:
           images: uxti/rust.proto
           tags: |
-            type=raw,value=${{ steps.date.outputs.today }}
+            type=raw,value=${{date 'YYYYMMDD'}}
 
 
       # Install the cosign tool except on PR
