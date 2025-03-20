@@ -36,6 +36,17 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: Get today's date
+        id: date
+        run: echo "::set-output name=today::$(date -u +'%Y-%m-%d')"
+      - name: Docker Metadata Action
+        id: metadata
+        uses: docker/metadata-action@v4
+        with:
+          images: raynkami/rust.grpcfront
+          tags: |
+            type=raw,value=${{ steps.date.outputs.today }}
+
 
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
@@ -77,7 +88,8 @@ jobs:
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
-          tags: uxti/rust-proto:{{date 'YYYYMMDD'}}
+          tags: ${{ steps.metadata.outputs.tags }}
+          #uxti/rust-proto:{{date 'YYYYMMDD'}}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
